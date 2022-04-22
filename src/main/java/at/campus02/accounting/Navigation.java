@@ -1,10 +1,14 @@
 package at.campus02.accounting;
 
+import at.campus02.exchange.ExchangeRates;
+import at.campus02.exchange.ExchangeRatesAPI;
 import at.campus02.input.CustomerInput;
+import at.campus02.input.InputHelper;
 import at.campus02.input.ItemInput;
 import at.campus02.input.PurchaseInput;
 
 import java.io.EOFException;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Navigation {
@@ -17,7 +21,15 @@ public class Navigation {
         this.scanner = new Scanner(System.in);
         this.purchaseInput = new PurchaseInput();
         this.customerInput = new CustomerInput();
-        this.itemInput = new ItemInput();
+        ExchangeRatesAPI exchangeRates = null;
+        try {
+            exchangeRates = ExchangeRatesAPI.fromConfig("exchangeRates.json");
+        } catch (IOException e) {
+            System.out.println("Coudn't load property files");
+            e.printStackTrace();
+        }
+        InputHelper inputHelper = new InputHelper(scanner,System.out);
+        this.itemInput = new ItemInput(inputHelper, System.out ,exchangeRates);
     }
 
     public void mainMenu() {
