@@ -11,11 +11,12 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.math.BigDecimal;
 
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.*;
 
 public class TestItemInput {
     @Before
-    private void SetUp(){
+    public void SetUp(){
 
     }
 
@@ -72,7 +73,7 @@ public class TestItemInput {
         Database.setupSampleDatabase();
 
         itemInput.removeItem();
-         verify(inputHelper,null);
+         assertFalse(Database.items.containsKey(1));
 
     }
 
